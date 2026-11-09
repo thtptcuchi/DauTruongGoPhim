@@ -427,6 +427,8 @@
                 syncRaceTimer(state.endTime);
                 updateLiveTracks(sortedStudents);
             } else if (state.status === 'finished') {
+                const typingInput = document.getElementById('typing-input');
+                if (typingInput) typingInput.disabled = true;
                 showResults(sortedStudents);
             }
         });
