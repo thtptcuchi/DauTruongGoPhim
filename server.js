@@ -65,6 +65,8 @@ io.on('connection', (socket) => {
         }
 
         gameState.status = 'countdown';
+        // Đặt thời gian kết thúc tính từ thời điểm hiện tại của server + thời gian thi
+        gameState.endTime = Date.now() + (gameState.duration * 1000);
         io.emit('update-state', gameState);
 
         if (raceTimer) clearTimeout(raceTimer);
@@ -73,7 +75,7 @@ io.on('connection', (socket) => {
         // Sau 3 giây chuyển sang trạng thái đua chính thức
         countdownTimer = setTimeout(() => {
             gameState.status = 'racing';
-            gameState.endTime = Date.now() + (gameState.duration * 1000);
+            gameState.endTime = Date.now() + (gameState.duration * 1000); // Cập nhật lại mốc kết thúc chính xác
             io.emit('update-state', gameState);
 
             // Tự động kết thúc khi hết giờ
