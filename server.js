@@ -82,6 +82,7 @@ io.on('connection', (socket) => {
             raceTimer = setTimeout(() => {
                 if (gameState.status === 'racing') {
                     gameState.status = 'finished';
+                    // Phát sự kiện cập nhật trạng thái toàn bộ phòng ngay lập tức
                     io.emit('update-state', gameState);
                 }
             }, gameState.duration * 1000);
