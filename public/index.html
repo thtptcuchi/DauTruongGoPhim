@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đấu trường gõ phím </title>
+    <title>Đấu trường gõ phím</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Socket.io client -->
@@ -68,10 +68,10 @@
                     <label class="block text-sm text-slate-400 mb-1">Chọn linh vật</label>
                     <div class="grid grid-cols-5 gap-2 text-2xl text-center">
                         <button type="button" onclick="selectAvatar('🦊')" class="avatar-btn p-2 bg-slate-900 border-2 border-indigo-500 rounded-xl hover:bg-slate-700">🦊</button>
-                        <button type="button" onclick="selectAvatar('🐱')" class="avatar-btn p-2 bg-slate-900 border-2 border-indigo-500 rounded-xl hover:bg-slate-700">🐱</button>
-                        <button type="button" onclick="selectAvatar('🐼')" class="avatar-btn p-2 bg-slate-900 border-2 border-indigo-500 rounded-xl hover:bg-slate-700">🐼</button>
-                        <button type="button" onclick="selectAvatar('🦁')" class="avatar-btn p-2 bg-slate-900 border-2 border-indigo-500 rounded-xl hover:bg-slate-700">🦁</button>
-                        <button type="button" onclick="selectAvatar('🚀')" class="avatar-btn p-2 bg-slate-900 border-2 border-indigo-500 rounded-xl hover:bg-slate-700">🚀</button>
+                        <button type="button" onclick="selectAvatar('🐱')" class="avatar-btn p-2 bg-slate-900 border-2 border-slate-700 rounded-xl hover:bg-slate-700">🐱</button>
+                        <button type="button" onclick="selectAvatar('🐼')" class="avatar-btn p-2 bg-slate-900 border-2 border-slate-700 rounded-xl hover:bg-slate-700">🐼</button>
+                        <button type="button" onclick="selectAvatar('🦁')" class="avatar-btn p-2 bg-slate-900 border-2 border-slate-700 rounded-xl hover:bg-slate-700">🦁</button>
+                        <button type="button" onclick="selectAvatar('🚀')" class="avatar-btn p-2 bg-slate-900 border-2 border-slate-700 rounded-xl hover:bg-slate-700">🚀</button>
                     </div>
                 </div>
                 <button onclick="joinAsStudent()" class="w-full bg-indigo-600 hover:bg-indigo-500 transition font-semibold py-3 rounded-xl shadow-lg mt-4">Vào phòng chờ</button>
@@ -81,7 +81,7 @@
             <div id="form-teacher" class="space-y-4 hidden">
                 <div>
                     <label class="block text-sm text-slate-400 mb-1">Mật khẩu quản trị</label>
-                    <input type="password" id="input-password" placeholder="Nhập mật khẩu (mặc định: 12345)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 focus:outline-none focus:border-indigo-500 text-white">
+                    <input type="password" id="input-password" placeholder="Nhập mật khẩu (mặc định: admin)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 focus:outline-none focus:border-indigo-500 text-white">
                 </div>
                 <button onclick="loginAsTeacher()" class="w-full bg-indigo-600 hover:bg-indigo-500 transition font-semibold py-3 rounded-xl shadow-lg mt-4">Đăng nhập Quản trị</button>
             </div>
@@ -119,7 +119,7 @@
                             <option value="30">30 giây</option>
                             <option value="60" selected>60 giây</option>
                             <option value="120">120 giây</option>
-                            <option value="120">180 giây</option>
+                            <option value="180">180 giây</option>
                         </select>
                     </div>
                 </div>
@@ -253,15 +253,15 @@
             const formStudent = document.getElementById('form-student');
             const formTeacher = document.getElementById('form-teacher');
             if (role === 'student') {
-                document.getElementById('tab-student').className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-indigo-600 text-white shadow";
-                document.getElementById('tab-teacher').className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-slate-400 hover:text-white";
-                document.getElementById('form-student').classList.remove('hidden');
-                document.getElementById('form-teacher').classList.add('hidden');
+                tabStudent.className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-indigo-600 text-white shadow";
+                tabTeacher.className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-slate-400 hover:text-white";
+                formStudent.classList.remove('hidden');
+                formTeacher.classList.add('hidden');
             } else {
-                document.getElementById('tab-teacher').className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-indigo-600 text-white shadow";
-                document.getElementById('tab-student').className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-slate-400 hover:text-white";
-                document.getElementById('form-teacher').classList.remove('hidden');
-                document.getElementById('form-student').classList.add('hidden');
+                tabTeacher.className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-indigo-600 text-white shadow";
+                tabStudent.className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-slate-400 hover:text-white";
+                formTeacher.classList.remove('hidden');
+                formStudent.classList.add('hidden');
             }
         }
 
@@ -415,6 +415,33 @@
             } else if (state.status === 'countdown') {
                 showScreen('screen-race');
                 startCountdownUI();
+
+                if (raceText !== state.text) {
+                    raceText = state.text;
+                    charIndex = 0;
+                    mistakes = 0;
+                    startTime = null;
+                    hasAwardedExpForThisRace = false;
+                    lastEmitTime = 0;
+
+                    const typingInput = document.getElementById('typing-input');
+                    if (typingInput) {
+                        typingInput.value = '';
+                        typingInput.disabled = true;
+                    }
+
+                    document.getElementById('acc-display').innerText = `--%`;
+                    document.getElementById('wpm-display').innerText = `0 WPM`;
+
+                    if (currentRole === 'teacher') {
+                        document.getElementById('teacher-force-finish').classList.remove('hidden');
+                    } else {
+                        document.getElementById('teacher-force-finish').classList.add('hidden');
+                    }
+
+                    const container = document.getElementById('target-text-container');
+                    container.innerHTML = state.text.split('').map(c => `<span>${c}</span>`).join('');
+                }
             } else if (state.status === 'racing') {
                 if (document.getElementById('screen-race').classList.contains('hidden')) {
                     showScreen('screen-race');
@@ -434,38 +461,6 @@
                 const typingInput = document.getElementById('typing-input');
                 if (typingInput) typingInput.disabled = true;
                 showResults(sortedStudents);
-            }
-            if (state.status === 'countdown' && raceText !== state.text) {
-                raceText = state.text;
-                charIndex = 0;
-                mistakes = 0;
-                startTime = null;
-                hasAwardedExpForThisRace = false;
-                lastEmitTime = 0;
-                // --- BỔ SUNG ĐOẠN NÀY ĐỂ XÓA SẠCH TEXT CŨ CHO LƯỢT THI MỚI ---
-                const typingInput = document.getElementById('typing-input');
-                if (typingInput) {
-                    typingInput.value = '';       // Xóa sạch nội dung gõ cũ
-                    typingInput.disabled = true;  // Khóa trong 3 giây đếm ngược
-                }
-                // -------------------------------------------------------------
-                const typingInput = document.getElementById('typing-input');
-                if (typingInput) {
-                    typingInput.value = '';
-                    typingInput.disabled = true;
-                }
-
-                document.getElementById('acc-display').innerText = `--%`;
-                document.getElementById('wpm-display').innerText = `0 WPM`;
-
-                if (currentRole === 'teacher') {
-                    document.getElementById('teacher-force-finish').classList.remove('hidden');
-                } else {
-                    document.getElementById('teacher-force-finish').classList.add('hidden');
-                }
-
-                const container = document.getElementById('target-text-container');
-                container.innerHTML = state.text.split('').map(c => `<span>${c}</span>`).join('');
             }
         });
 
@@ -507,7 +502,6 @@
                     timerDisplay.innerText = `${timeLeft}s`;
                 }
 
-                // KHOÁ Ô NHẬP LIỆU NGAY LẬP TỨC KHI HẾT GIỜ (CHỐNG GÕ GIAN LẬN)
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
                     const typingInput = document.getElementById('typing-input');
@@ -523,7 +517,7 @@
         let startTime = null;
         let mistakes = 0;
 
-            function handleTyping(e) {
+        function handleTyping(e) {
             const inputVal = e.target.value;
             const spans = document.getElementById('target-text-container').querySelectorAll('span');
 
