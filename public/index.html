@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đấu trường gõ phím LAN - RPG Edition</title>
+    <title>Đấu trường gõ phím </title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Socket.io client -->
@@ -22,8 +22,8 @@
         <div class="flex items-center space-x-3">
             <span class="text-3xl">⌨️</span>
             <div>
-                <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">Đấu Trường Gõ Phím LAN</h1>
-                <p class="text-xs text-slate-400">Phiên bản Phòng máy 40 Máy - RPG</p>
+                <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">Đấu Trường Gõ Phím</h1>
+                <p class="text-xs text-slate-400">Phiên bản do MrNguyen tạo ra</p>
             </div>
         </div>
         <div class="flex items-center space-x-4">
@@ -62,16 +62,16 @@
                 </div>
                 <div>
                     <label class="block text-sm text-slate-400 mb-1">Lớp</label>
-                    <input type="text" id="input-class" placeholder="Ví dụ: 10A1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 focus:outline-none focus:border-indigo-500 text-white">
+                    <input type="text" id="input-class" placeholder="Ví dụ: 5/1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 focus:outline-none focus:border-indigo-500 text-white">
                 </div>
                 <div>
                     <label class="block text-sm text-slate-400 mb-1">Chọn linh vật</label>
                     <div class="grid grid-cols-5 gap-2 text-2xl text-center">
                         <button type="button" onclick="selectAvatar('🦊')" class="avatar-btn p-2 bg-slate-900 border-2 border-indigo-500 rounded-xl hover:bg-slate-700">🦊</button>
-                        <button type="button" onclick="selectAvatar('🐱')" class="avatar-btn p-2 bg-slate-900 border-2 border-slate-700 rounded-xl hover:bg-slate-700">🐱</button>
-                        <button type="button" onclick="selectAvatar('🐼')" class="avatar-btn p-2 bg-slate-900 border-2 border-slate-700 rounded-xl hover:bg-slate-700">🐼</button>
-                        <button type="button" onclick="selectAvatar('🦁')" class="avatar-btn p-2 bg-slate-900 border-2 border-slate-700 rounded-xl hover:bg-slate-700">🦁</button>
-                        <button type="button" onclick="selectAvatar('🚀')" class="avatar-btn p-2 bg-slate-900 border-2 border-slate-700 rounded-xl hover:bg-slate-700">🚀</button>
+                        <button type="button" onclick="selectAvatar('🐱')" class="avatar-btn p-2 bg-slate-900 border-2 border-indigo-500 rounded-xl hover:bg-slate-700">🐱</button>
+                        <button type="button" onclick="selectAvatar('🐼')" class="avatar-btn p-2 bg-slate-900 border-2 border-indigo-500 rounded-xl hover:bg-slate-700">🐼</button>
+                        <button type="button" onclick="selectAvatar('🦁')" class="avatar-btn p-2 bg-slate-900 border-2 border-indigo-500 rounded-xl hover:bg-slate-700">🦁</button>
+                        <button type="button" onclick="selectAvatar('🚀')" class="avatar-btn p-2 bg-slate-900 border-2 border-indigo-500 rounded-xl hover:bg-slate-700">🚀</button>
                     </div>
                 </div>
                 <button onclick="joinAsStudent()" class="w-full bg-indigo-600 hover:bg-indigo-500 transition font-semibold py-3 rounded-xl shadow-lg mt-4">Vào phòng chờ</button>
@@ -81,7 +81,7 @@
             <div id="form-teacher" class="space-y-4 hidden">
                 <div>
                     <label class="block text-sm text-slate-400 mb-1">Mật khẩu quản trị</label>
-                    <input type="password" id="input-password" placeholder="Nhập mật khẩu (mặc định: admin)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 focus:outline-none focus:border-indigo-500 text-white">
+                    <input type="password" id="input-password" placeholder="Nhập mật khẩu (mặc định: 12345)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 focus:outline-none focus:border-indigo-500 text-white">
                 </div>
                 <button onclick="loginAsTeacher()" class="w-full bg-indigo-600 hover:bg-indigo-500 transition font-semibold py-3 rounded-xl shadow-lg mt-4">Đăng nhập Quản trị</button>
             </div>
@@ -119,6 +119,7 @@
                             <option value="30">30 giây</option>
                             <option value="60" selected>60 giây</option>
                             <option value="120">120 giây</option>
+                            <option value="120">180 giây</option>
                         </select>
                     </div>
                 </div>
