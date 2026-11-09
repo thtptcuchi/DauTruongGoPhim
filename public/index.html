@@ -495,7 +495,13 @@
                 startTime = null;
                 hasAwardedExpForThisRace = false;
                 lastEmitTime = 0;
-
+                // --- BỔ SUNG ĐOẠN NÀY ĐỂ XÓA SẠCH TEXT CŨ CHO LƯỢT THI MỚI ---
+                const typingInput = document.getElementById('typing-input');
+                if (typingInput) {
+                    typingInput.value = '';       // Xóa sạch nội dung gõ cũ
+                    typingInput.disabled = true;  // Khóa trong 3 giây đếm ngược
+                }
+                // -------------------------------------------------------------
                 const typingInput = document.getElementById('typing-input');
                 if (typingInput) {
                     typingInput.value = '';
