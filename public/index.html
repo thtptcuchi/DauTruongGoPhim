@@ -248,6 +248,10 @@
 
         function switchRole(role) {
             currentRole = role;
+            const tabStudent = document.getElementById('tab-student');
+            const tabTeacher = document.getElementById('tab-teacher');
+            const formStudent = document.getElementById('form-student');
+            const formTeacher = document.getElementById('form-teacher');
             if (role === 'student') {
                 document.getElementById('tab-student').className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-indigo-600 text-white shadow";
                 document.getElementById('tab-teacher').className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-slate-400 hover:text-white";
@@ -431,6 +435,38 @@
                 if (typingInput) typingInput.disabled = true;
                 showResults(sortedStudents);
             }
+            if (state.status === 'countdown' && raceText !== state.text) {
+                raceText = state.text;
+                charIndex = 0;
+                mistakes = 0;
+                startTime = null;
+                hasAwardedExpForThisRace = false;
+                lastEmitTime = 0;
+                // --- BỔ SUNG ĐOẠN NÀY ĐỂ XÓA SẠCH TEXT CŨ CHO LƯỢT THI MỚI ---
+                const typingInput = document.getElementById('typing-input');
+                if (typingInput) {
+                    typingInput.value = '';       // Xóa sạch nội dung gõ cũ
+                    typingInput.disabled = true;  // Khóa trong 3 giây đếm ngược
+                }
+                // -------------------------------------------------------------
+                const typingInput = document.getElementById('typing-input');
+                if (typingInput) {
+                    typingInput.value = '';
+                    typingInput.disabled = true;
+                }
+
+                document.getElementById('acc-display').innerText = `--%`;
+                document.getElementById('wpm-display').innerText = `0 WPM`;
+
+                if (currentRole === 'teacher') {
+                    document.getElementById('teacher-force-finish').classList.remove('hidden');
+                } else {
+                    document.getElementById('teacher-force-finish').classList.add('hidden');
+                }
+
+                const container = document.getElementById('target-text-container');
+                container.innerHTML = state.text.split('').map(c => `<span>${c}</span>`).join('');
+            }
         });
 
         function startCountdownUI() {
@@ -487,42 +523,7 @@
         let startTime = null;
         let mistakes = 0;
 
-        socket.on('update-state', (state) => {
-            if (state.status === 'countdown' && raceText !== state.text) {
-                raceText = state.text;
-                charIndex = 0;
-                mistakes = 0;
-                startTime = null;
-                hasAwardedExpForThisRace = false;
-                lastEmitTime = 0;
-                // --- BỔ SUNG ĐOẠN NÀY ĐỂ XÓA SẠCH TEXT CŨ CHO LƯỢT THI MỚI ---
-                const typingInput = document.getElementById('typing-input');
-                if (typingInput) {
-                    typingInput.value = '';       // Xóa sạch nội dung gõ cũ
-                    typingInput.disabled = true;  // Khóa trong 3 giây đếm ngược
-                }
-                // -------------------------------------------------------------
-                const typingInput = document.getElementById('typing-input');
-                if (typingInput) {
-                    typingInput.value = '';
-                    typingInput.disabled = true;
-                }
-
-                document.getElementById('acc-display').innerText = `--%`;
-                document.getElementById('wpm-display').innerText = `0 WPM`;
-
-                if (currentRole === 'teacher') {
-                    document.getElementById('teacher-force-finish').classList.remove('hidden');
-                } else {
-                    document.getElementById('teacher-force-finish').classList.add('hidden');
-                }
-
-                const container = document.getElementById('target-text-container');
-                container.innerHTML = state.text.split('').map(c => `<span>${c}</span>`).join('');
-            }
-        });
-
-        function handleTyping(e) {
+            function handleTyping(e) {
             const inputVal = e.target.value;
             const spans = document.getElementById('target-text-container').querySelectorAll('span');
 
