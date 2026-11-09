@@ -460,7 +460,6 @@
         function syncRaceTimer(endTime) {
             if (timerInterval) clearInterval(timerInterval);
             
-            // Cập nhật liên tục bằng requestAnimationFrame kết hợp setInterval để mượt mà tuyệt đối
             timerInterval = setInterval(() => {
                 const now = Date.now();
                 const timeLeft = Math.max(0, Math.round((endTime - now) / 1000));
@@ -470,10 +469,16 @@
                     timerDisplay.innerText = `${timeLeft}s`;
                 }
 
+                // KHOÁ Ô NHẬP LIỆU NGAY LẬP TỨC KHI HẾT GIỜ (CHỐNG GÕ GIAN LẬN)
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
+                    const typingInput = document.getElementById('typing-input');
+                    if (typingInput && !typingInput.disabled) {
+                        typingInput.disabled = true;
+                        typingInput.placeholder = "Đã hết thời gian! Đang tổng kết...";
+                    }
                 }
-            }, 200); // Kiểm tra mỗi 200ms để đồng hồ phản hồi cực nhạy
+            }, 200);
         }
 
         let charIndex = 0;
