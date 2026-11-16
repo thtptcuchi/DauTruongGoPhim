@@ -65,7 +65,6 @@ io.on('connection', (socket) => {
         }
 
         gameState.status = 'countdown';
-        // Đặt thời gian kết thúc tính từ thời điểm hiện tại của server + thời gian thi
         gameState.endTime = Date.now() + (gameState.duration * 1000);
         io.emit('update-state', gameState);
 
@@ -75,14 +74,13 @@ io.on('connection', (socket) => {
         // Sau 3 giây chuyển sang trạng thái đua chính thức
         countdownTimer = setTimeout(() => {
             gameState.status = 'racing';
-            gameState.endTime = Date.now() + (gameState.duration * 1000); // Cập nhật lại mốc kết thúc chính xác
+            gameState.endTime = Date.now() + (gameState.duration * 1000);
             io.emit('update-state', gameState);
 
             // Tự động kết thúc khi hết giờ
             raceTimer = setTimeout(() => {
                 if (gameState.status === 'racing') {
                     gameState.status = 'finished';
-                    // Phát sự kiện cập nhật trạng thái toàn bộ phòng ngay lập tức
                     io.emit('update-state', gameState);
                 }
             }, gameState.duration * 1000);
@@ -130,8 +128,8 @@ io.on('connection', (socket) => {
     });
 });
 
+// Hỗ trợ cổng động trên Railway và cổng mặc định 3000 khi chạy local
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on port ${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+    console.log(`Đấu trường đang chạy tại cổng: ${PORT}`);
 });
