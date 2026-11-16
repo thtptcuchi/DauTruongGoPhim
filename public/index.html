@@ -416,32 +416,32 @@
                 showScreen('screen-race');
                 startCountdownUI();
 
-                if (raceText !== state.text) {
-                    raceText = state.text;
-                    charIndex = 0;
-                    mistakes = 0;
-                    startTime = null;
-                    hasAwardedExpForThisRace = false;
-                    lastEmitTime = 0;
+                // LUÔN RESET VÀ LÀM TRỐNG Ô NHẬP LIỆU MỖI KHI BẮT ĐẦU ĐẾM NGƯỢC VÁN MỚI
+                raceText = state.text;
+                charIndex = 0;
+                mistakes = 0;
+                startTime = null;
+                hasAwardedExpForThisRace = false;
+                lastEmitTime = 0;
 
-                    const typingInput = document.getElementById('typing-input');
-                    if (typingInput) {
-                        typingInput.value = '';
-                        typingInput.disabled = true;
-                    }
-
-                    document.getElementById('acc-display').innerText = `--%`;
-                    document.getElementById('wpm-display').innerText = `0 WPM`;
-
-                    if (currentRole === 'teacher') {
-                        document.getElementById('teacher-force-finish').classList.remove('hidden');
-                    } else {
-                        document.getElementById('teacher-force-finish').classList.add('hidden');
-                    }
-
-                    const container = document.getElementById('target-text-container');
-                    container.innerHTML = state.text.split('').map(c => `<span>${c}</span>`).join('');
+                const typingInput = document.getElementById('typing-input');
+                if (typingInput) {
+                    typingInput.value = '';       // Xóa sạch nội dung gõ cũ
+                    typingInput.disabled = true;  // Khóa trong 3 giây đếm ngược
                 }
+
+                document.getElementById('acc-display').innerText = `--%`;
+                document.getElementById('wpm-display').innerText = `0 WPM`;
+
+                if (currentRole === 'teacher') {
+                    document.getElementById('teacher-force-finish').classList.remove('hidden');
+                } else {
+                    document.getElementById('teacher-force-finish').classList.add('hidden');
+                }
+
+                const container = document.getElementById('target-text-container');
+                container.innerHTML = state.text.split('').map(c => `<span>${c}</span>`).join('');
+
             } else if (state.status === 'racing') {
                 if (document.getElementById('screen-race').classList.contains('hidden')) {
                     showScreen('screen-race');
