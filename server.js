@@ -51,7 +51,13 @@ io.on('connection', (socket) => {
             io.emit('update-state', gameState);
         }
     });
-
+// Cập nhật cấp độ mới nhất của học sinh lên server khi thăng cấp hoặc kết thúc ván
+    socket.on('update-my-level', (data) => {
+        if (gameState.students[socket.id]) {
+            gameState.students[socket.id].level = data.level;
+            io.emit('update-state', gameState);
+        }
+    });
     // Bắt đầu thi: Đếm ngược 3 giây đồng bộ chuẩn server
     socket.on('start-race', (config) => {
         gameState.text = config.text || gameState.text;
