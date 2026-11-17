@@ -669,10 +669,12 @@
                     playerStats.maxExp = Math.round(playerStats.maxExp * 1.2);
                     leveledUp = true;
                 }
-
+                
                 savePlayerProfile(studentData.name, studentData.className);
                 updateRPGHeader(studentData.name, studentData.className);
-
+                // --- BỔ SUNG GỬI LEVEL MỚI NHẤT LÊN SERVER ĐỂ ĐỒNG BỘ PHÒNG CHỜ ---
+                socket.emit('update-my-level', { level: playerStats.level });
+                // -----------------------------------------------------------------
                 document.getElementById('earned-exp-text').innerText = `+${earnedExp} EXP (Độ chính xác: ${acc}%)`;
                 if (leveledUp) {
                     levelUpNotif.classList.remove('hidden');
